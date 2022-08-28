@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "torchvf"
+version = "0.1.0"
+description = "Vector fields for instance segmentation in PyTorch."
+authors = ["Ryan Peters <RyanIRL@icloud.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/ryanirl/torchvf"
+repository = "https://github.com/ryanirl/torchvf"
+classifiers = [  
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+include = [
+    "LICENSE"
+]
+packages = [
+    {include = "torchvf"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+torch = "^1.6.0"
+scikit-learn = "*"
+matplotlib = "*"
+opencv-python = "*"
+numpy = "*"
+pandas = "*"
+torchvision = "*"
+pyyaml = "*"
+edt = "*"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+
+
