@@ -30,13 +30,15 @@ from models import *
 from losses import *
 from utils import *
 
-from configs.training.bpcis_worm import get_config as worm_cfg
-from configs.training.bpcis_bact_phase import get_config as phase_cfg
-from configs.training.bpcis_bact_fluor import get_config as fluor_cfg
+# I am actively looking into a better way to do configs.
+from ml_collections.config_flags.config_flags import _ConfigFileParser
 
-cfg = worm_cfg()
-#cfg = fluor_cfg()
-#cfg = phase_cfg()
+parser = argparse.ArgumentParser()
+parser.add_argument("--config_dir", default = "./configs/training/bpcis_bact_fluor.py")
+args = parser.parse_args()
+
+FileParser = _ConfigFileParser(name = "train")
+cfg = FileParser.parse(args.config_dir)
 
 # When using GPU, have this on.
 torch.backends.cudnn.benchmark = True

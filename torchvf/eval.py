@@ -19,6 +19,7 @@ import torch.nn as nn
 import torch
 
 import numpy as np
+import argparse
 import shutil
 import time
 import os
@@ -31,15 +32,20 @@ from models import *
 from losses import *
 from utils import *
 
-from configs.eval.bpcis_bact_fluor import get_config as fluor_cfg
-from configs.eval.bpcis_bact_phase import get_config as phase_cfg
-from configs.eval.bpcis_worm import get_config as worm_cfg 
+# I am actively looking into a better way to do configs.
+from ml_collections.config_flags.config_flags import _ConfigFileParser
 
-#cfg = phase_cfg()
-cfg = fluor_cfg()
-#cfg = worm_cfg()
+parser = argparse.ArgumentParser()
+parser.add_argument("--config_dir", default = "./configs/eval/bpcis_bact_fluor.py")
+args = parser.parse_args()
 
-shutil.copyfile(cfg.CONFIG_DIR, os.path.join(cfg.SAVE_DIR, "eval_config.py"))
+FileParser = _ConfigFileParser(name = "eval")
+cfg = FileParser.parse(args.config_dir)
+
+#shutil.copyfile(
+#    cfg.CONFIG_DIR, 
+#    os.path.join(os.path.dirname(args.config_dir), "eval_config_modified.py")
+#)
 
 ######################################## 
 ############# DATA LOADER ############## 
@@ -127,8 +133,6 @@ with torch.inference_mode():
 
         semantic_iou = iou(pred_semantic, true_semantic)
         semantic_f1  = f1(pred_semantic,  true_semantic)
-
-#        pred_vf = pred_vf / pred_vf.max()
 
         # 1. Define continuous vf through bilinear interpolation. 
         vf = interp_vf(pred_vf, mode = cfg.IVP.INTERP)

@@ -17,6 +17,7 @@ from .vector_fields import compute_vector_field
 from .integration import *
 from .interpolation import *
 from .differentiation import *
+from .affinity import affinity_vf
 
 
 
