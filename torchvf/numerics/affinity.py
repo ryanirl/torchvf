@@ -40,10 +40,10 @@ def affinity_vf(instance_mask, kernel_size, device = "cpu"):
     target_kernel = apply_ones_kernel(instance_mask, kernel_size, gradient = False)
     target_kernel = target_kernel.reshape(B, kernel_size, kernel_size, H, W)
 
-    offsets = affinity_to_vf(target_kernel, device = device)
-    offsets[~sem_idx] = 0.0
+    vector_field = affinity_to_vf(target_kernel, device = device)
+    vector_field[~sem_idx] = 0.0
 
-    return offsets
+    return vector_field
 
 
 def apply_ones_kernel(x, kernel_size, gradient = False):

@@ -19,21 +19,21 @@ import numpy as np
 from sklearn.cluster import DBSCAN
 from sklearn.neighbors import NearestNeighbors
 
-#import hdbscan
-
 
 def cluster(points, semantic, eps = 2.2, min_samples = 15, snap_noise = True):
     """
-    Will cluster the semantic points given by the affinity derived 
-    offset coordinate system using DBSCAN.
+    Returns the instance segmentation given the the semantic segmentation and 
+    the integrated euclidean semantic points. 
 
     Args:
-        points (torch.Tensor): Must be of shape (D, N)
-        eps: ...
+        points (torch.Tensor): Of shape (D, N).
+        semantic (torch.Tensor): The semantic segmentation of shape (1, H, W).
+        eps: EPS value to use for DBSCAN. This is the neighborhood 'radius' from 
+            a point we want to consider. 
         min_samples: ...
 
     Returns:
-        torch.Tensor: ...
+        torch.Tensor: The instance segmentation of shape (1, H, W).
 
     """
     points = points.T
@@ -41,8 +41,6 @@ def cluster(points, semantic, eps = 2.2, min_samples = 15, snap_noise = True):
     if points.shape[0] == 0:
         return semantic
 
-#    clusterer = hdbscan.HDBSCAN(min_cluster_size = 15)
-#    clusters = torch.Tensor(clusterer.fit_predict(points))
     clustering = DBSCAN(eps = eps, min_samples = min_samples, n_jobs = -1).fit(points)
     clusters = torch.Tensor(clustering.labels_)
 
@@ -51,8 +49,8 @@ def cluster(points, semantic, eps = 2.2, min_samples = 15, snap_noise = True):
         if torch.any(outliers_idx):
             non_outliers_idx = ~outliers_idx
 
-            # If there are outliers but no non-outliers, then 
-            # nothing was clustered and return semantic. 
+            # If there are ONLY outliers, then nothing was 
+            # clustered and return the semantic segmentation. 
             if not torch.any(non_outliers_idx):
                 return semantic
 
@@ -68,7 +66,8 @@ def cluster(points, semantic, eps = 2.2, min_samples = 15, snap_noise = True):
             nearest_n = clusters[non_outliers_idx][nn_idx]
             values = torch.mode(nearest_n, dim = 1)[0]
 
-            # Give the outliers the instance value of their nearest neighbor.
+            # Give the outliers the instance value of their nearest 
+            # clustered neighbor.
             clusters[outliers_idx] = values
 
     # It sets first cluster to 0, be careful as this would

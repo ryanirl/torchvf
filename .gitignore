@@ -1,10 +1,15 @@
 bpcis
 
+# Various Configs
+bpcis_bact_phase_affinity_19.py
+
+# Weights
 weights/old/
 weights/bact_fluor/
 weights/bact_phase/
 weights/worm/
 checkpoints/
+*.pth
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,jupyternotebooks,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,jupyternotebooks,python

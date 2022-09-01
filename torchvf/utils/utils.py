@@ -162,40 +162,6 @@ def load_checkpoint(filename, model, optimizer = None):
     return model, optimizer, epoch
 
 
-def convert_old_to_new_h2(model_dir, new_name = "new_h2"):
-    import copy
-
-    assert os.path.exists(model_dir), "Checkpoint dir does not exist!"
-
-    print(f"Loading checkpoint from: {model_dir}")
-    checkpoint = torch.load(model_dir, map_location = torch.device("cpu"))
-
-    base_dict = checkpoint["model_state_dict"]
-    new_dict = copy.deepcopy(base_dict)
-
-    for key in base_dict:
-        if "final" in key:
-            values = key.split('.')
-            head = int(values[0].split('_')[-1])
-            values = values[2:]
-
-            curr = ".".join(values)
-
-            new_dict[f"final_{head}.{curr}"] = new_dict.pop(key)
-
-    state = {
-        "optimizer_state_dict": checkpoint["optimizer_state_dict"],
-        "model_state_dict": new_dict,
-        "epoch": checkpoint["epoch"] 
-    }
-
-    split_dir = model_dir.split("/")
-    split_dir[-1] = f"{new_name}.pth"
-    split_dir = "/".join(split_dir)
-
-    save_checkpoint(split_dir, state)
-
-
 
 
 

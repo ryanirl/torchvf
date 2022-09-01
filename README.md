@@ -85,7 +85,8 @@ Once you download the weights:
 
 ### Installing the BPCIS Dataset
 
-First download the BPCIS dataset. Then setup the file system this way:
+First, download the BPCIS dataset [here](http://www.cellpose.org/dataset_omnipose).
+Then setup the file system this way:
 
 ```bash
 ├── torchvf/
@@ -101,9 +102,10 @@ First download the BPCIS dataset. Then setup the file system this way:
 └── ***
 ```
 
-If you have the library cloned, downloaded the weights, and downloaded the
-BPCIS dataset you should be able to do `python3 eval.py --config_dir
-../weights/bact_fluor/h1/eval_config.py`. And run the evaluation. 
+If you have cloned the library, downloaded the weights, and downloaded the
+BPCIS dataset you *should* be able to do `python3 eval.py --config_dir
+../weights/bact_fluor/h1/eval_config.py`. This will run evaluation on the
+bacterial fluorescence subset using the downloaded weights. 
 
 ## Usage
 
@@ -112,13 +114,6 @@ Work in progress.
 ## Citation
 
 Work in progress.
-
-TODO:
- - Scripts to reproduce all experiments.
- - Add dependencies and PyPi.
- - Usage.
- - Contributions (Not accepting pulls ATM, but feel free to post issues or send me emails.)
- - Add image/diagram for vector field based methods.
 
 
 ## License
