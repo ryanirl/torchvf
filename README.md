@@ -62,9 +62,48 @@ instance_segmentation = cluster(
 
 ```
 
-## Installation
+## Reproducability
 
-Work in progress.
+This installation guide is for people who want to reproduce the results in my
+[article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf)
+on vector field based methods using TorchVF as-is. 
+
+I have a PyPI library for TorchVF, though for now just clone the repository as 
+the API is a work in progress. 
+
+### Installing the Weights
+
+Weights include H1 and H2 for the bacterial phase contrast, bacterial
+fluorescence, and worm subsets of the BPCIS dataset. And can be found
+[here](https://drive.google.com/drive/folders/14fvNNZkr4ewuy0-Q2mwjCX-fbMVS7X90?usp=sharing)
+(157.5 MB zipped | 185.5 MB unzipped). 
+
+Once you download the weights:
+ - Unzip the file.
+ - Replace the `torchvf/weights` file with the `torchvf_weights` file. 
+ - Rename `torchvf/torchvf_weights` to `torchvf/weights`.
+
+### Installing the BPCIS Dataset
+
+First download the BPCIS dataset. Then setup the file system this way:
+
+```bash
+├── torchvf/
+├── data/
+│   └── bpcis/
+│       ├── bact_fluor_train/
+│       ├── bact_fluor_test/
+│       ├── bact_phase_train/
+│       ├── bact_phase_test/
+│       ├── worm_train/
+│       └── worm_test/
+├── weights/
+└── ***
+```
+
+If you have the library cloned, downloaded the weights, and downloaded the
+BPCIS dataset you should be able to do `python3 eval.py --config_dir
+../weights/bact_fluor/h1/eval_config.py`. And run the evaluation. 
 
 ## Usage
 
@@ -84,7 +123,7 @@ TODO:
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the Apache-2.0 license. See `LICENSE` for more information.
 
 
 
