@@ -15,6 +15,12 @@ on vector field based methods.
 
 ## Quick Start
 
+First, install the TorchVF library:
+
+```
+pip install torchvf
+```
+
 For anyone interested in learning about vector field based methods, see my
 [article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf).
 TorchVF can be used to compute the instance segmentation given the semantic
@@ -145,9 +151,12 @@ NumPy appears in various places (mAP IoU metric, clustering, ...).
 
 This installation guide is for people who want to reproduce the results in my
 [article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf)
-on vector field based methods. First, clone the repository:
+on vector field based methods. First, install the torchvf library and clone the
+repository to get access to the scripts:
 
 ```
+pip install torchvf 
+
 git clone https://github.com/ryanirl/torchvf.git
 ```
 

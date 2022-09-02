@@ -9,6 +9,8 @@
     - Omnipose won't be exact, they have custom EDT algorithm. 
     - Divergence and normalization too. 
  - demo.py for TorchVF API.
+ - Make it so no modification to the BPCIS library is needed.
+ - Add pip install to README.
 
 ## Long Term TODO:
  - PyTorch DBSCAN.
