@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .sartorius import Sartorius
-from .bpcis import BPCIS
+from torchvf.dataloaders.sartorius import Sartorius
+from torchvf.dataloaders.bpcis import BPCIS
 
-from .dataloader import MultiEpochsDataLoader
+from torchvf.dataloaders.dataloader import MultiEpochsDataLoader
 
 
 

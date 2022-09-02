@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .dynamic_overlap import DynamicOverlapTiler
-from .padding import PaddingTiler
-from .reshape import ResizeTiler
+from torchvf.utils.tiling.dynamic_overlap import DynamicOverlapTiler
+from torchvf.utils.tiling.padding import PaddingTiler
+from torchvf.utils.tiling.reshape import ResizeTiler
 
 tilers = {
     "dynamic_overlap": DynamicOverlapTiler,

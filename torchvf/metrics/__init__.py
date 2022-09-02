@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .map_iou import map_iou
-from .iou import iou
-from .f1 import f1
+from torchvf.metrics.map_iou import map_iou
+from torchvf.metrics.iou import iou
+from torchvf.metrics.f1 import f1

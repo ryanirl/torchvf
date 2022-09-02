@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .ivp_int import ivp_solver
-from .solvers import Euler, Midpoint, RungeKutta
-from .utils import (
+from torchvf.numerics.integration.ivp_int import ivp_solver
+from torchvf.numerics.integration.solvers import Euler, Midpoint, RungeKutta
+from torchvf.numerics.integration.utils import (
     init_values_mesh, 
     init_values_mesh_batched, 
     init_values_semantic
 )
+

@@ -16,9 +16,9 @@ import torch.nn.functional as F
 import torch.nn as nn
 import torch
 
-from models.modules import FinalBlock
-from models.encoder import Encoder
-from models.decoder import Decoder
+from torchvf.models.modules import FinalBlock
+from torchvf.models.encoder import Encoder
+from torchvf.models.decoder import Decoder
 
 
 class H2Model(nn.Module):
@@ -66,7 +66,7 @@ class H1Model(nn.Module):
 
 
 def get_model(model_type = "h1", in_channels = 1, out_channels = [1, 2], device = "cpu"):
-    assert model_type in ["h1", "h2"], "Model type must be 'h1' or 'h2'"
+    assert model_type in ["h1", "h2"], "Model type must be 'h1' or 'h2'."
 
     if model_type == "h1":
         model = H1Model(in_channels, out_channels)

@@ -16,7 +16,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from utils.tiling.base import TilerBase
+from torchvf.utils.tiling.base import TilerBase
 
 from math import ceil
 

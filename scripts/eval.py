@@ -24,13 +24,12 @@ import shutil
 import time
 import os
 
-from dataloaders import *
-from transforms import *
-from numerics import *
-from metrics import *
-from models import *
-from losses import *
-from utils import *
+from torchvf.numerics import interp_vf, ivp_solver, init_values_semantic
+from torchvf.metrics import f1, iou, map_iou
+from torchvf.dataloaders import BPCIS
+from torchvf.models import get_model
+from torchvf.transforms import *
+from torchvf.utils import *
 
 # I am actively looking into a better way to do configs.
 from ml_collections.config_flags.config_flags import _ConfigFileParser
@@ -129,7 +128,7 @@ with torch.inference_mode():
         step_time = time.time()
 
         pred_semantic, pred_vf = model(image)
-        pred_semantic = torch.sigmoid(pred_semantic) > 0.5
+        pred_semantic = torch.sigmoid(pred_semantic) > cfg.SEMANTIC.THRESH
 
         semantic_iou = iou(pred_semantic, true_semantic)
         semantic_f1  = f1(pred_semantic,  true_semantic)

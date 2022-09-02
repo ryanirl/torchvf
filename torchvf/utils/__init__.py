@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .clustering import cluster
-from .tiling import get_tiler
-from .logger import setup_logger
-from .utils import *
+from torchvf.utils.clustering import cluster
+from torchvf.utils.tiling import get_tiler
+from torchvf.utils.logger import setup_logger
+from torchvf.utils.utils import *
 
 
 

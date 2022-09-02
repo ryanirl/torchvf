@@ -15,7 +15,7 @@
 import torch.nn as nn
 import torch
 
-from models.modules import MiddleBlock
+from torchvf.models.modules import MiddleBlock
 
 
 class ResidualBlock(nn.Module):

@@ -20,8 +20,8 @@ import numpy as np
 
 import edt
 
-from numerics.differentiation import *
-from utils import *
+from torchvf.numerics.differentiation import *
+from torchvf.utils import *
 
 
 def compute_sdf(semantic_mask):

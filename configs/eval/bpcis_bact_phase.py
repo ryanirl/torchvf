@@ -10,13 +10,13 @@ def get_config():
 
     cfg.CONFIG_DIR = "./configs/eval/bpcis_bact_phase.py"
 
-    cfg.MODEL_DIR  = "../weights/bact_phase/h2_old/model.pth" 
-    cfg.SAVE_DIR = "../weights/bact_phase/h2_old/"
+    cfg.MODEL_DIR  = "./weights/bact_phase/h2_old/model.pth" 
+    cfg.SAVE_DIR = "./weights/bact_phase/h2_old/"
 
     cfg.BATCH_SIZE = 1
 
     cfg.DATA = config_dict.ConfigDict()
-    cfg.DATA.DIR = "../data/bpcis/"
+    cfg.DATA.DIR = "./data/bpcis/"
     cfg.DATA.C = 1
     cfg.DATA.VF = False
     cfg.DATA.SPLIT = "bact_phase_test"

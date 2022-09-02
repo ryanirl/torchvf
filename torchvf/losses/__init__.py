@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .tversky import TverskyLoss
-from .dice import DiceLoss
-from .ivp_loss import IVPLoss
+from torchvf.losses.tversky import TverskyLoss
+from torchvf.losses.dice import DiceLoss
+from torchvf.losses.ivp_loss import IVPLoss

@@ -14,7 +14,7 @@
 
 import torch
 
-from numerics.integration.solvers import (
+from torchvf.numerics.integration.solvers import (
     Euler, 
     Midpoint, 
     RungeKutta

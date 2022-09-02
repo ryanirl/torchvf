@@ -18,7 +18,7 @@ import torch.nn.functional as F
 
 from math import floor, ceil
 
-from utils.utils import batch_of_n
+from torchvf.utils.utils import batch_of_n
 
 
 class TilerBase(nn.Module):

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .models import H1Model, H2Model, get_model
+from torchvf.models.models import H1Model, H2Model, get_model
 
 
 

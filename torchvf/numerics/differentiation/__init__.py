@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .finite_differences import (
+from torchvf.numerics.differentiation.finite_differences import (
     finite_differences,
     gaussian_smoothed_finite_differences
 )

@@ -16,7 +16,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from losses.dice import DiceLoss
+from torchvf.losses.dice import DiceLoss
 
 
 class TverskyLoss(DiceLoss):

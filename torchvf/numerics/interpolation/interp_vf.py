@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from numerics.interpolation.functional import (
+from torchvf.numerics.interpolation.functional import (
     bilinear_interpolation_batched,
     bilinear_interpolation,
     nearest_interpolation

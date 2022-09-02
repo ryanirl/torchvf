@@ -15,7 +15,7 @@
 import torch.nn as nn
 import torch
 
-from models.modules import ConvBlock
+from torchvf.models.modules import ConvBlock
 
 
 class DecoderBlock(nn.Module):

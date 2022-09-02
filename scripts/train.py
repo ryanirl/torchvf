@@ -24,12 +24,11 @@ import shutil
 import time
 import os
 
-from dataloaders import *
-from transforms import *
-from numerics import *
-from models import *
-from losses import *
-from utils import *
+from torchvf.dataloaders import BPCIS, MultiEpochsDataLoader
+from torchvf.losses import IVPLoss, TverskyLoss
+from torchvf.transforms import transforms
+from torchvf.models import get_model
+from torchvf.utils import *
 
 # I am actively looking into a better way to do configs.
 from ml_collections.config_flags.config_flags import _ConfigFileParser

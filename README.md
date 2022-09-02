@@ -5,8 +5,8 @@ WORK IN PROGRESS.
 TorchVF is a unifying Python library for using vector fields for lightweight 
 proposal-free instance segmentation. The TorchVF library provides generalizable
 functions to automate ground truth vector field computation, interpolation of
-discrete vector fields, numeric integration solvers, clustering functions, and
-various other utilities. 
+discretely sampled vector fields, numeric integration solvers, clustering
+functions, and various other utilities. 
 
 This repository also provides all configs, code, and tools necessary to
 reproduce the results in my
@@ -24,8 +24,8 @@ segmentation and vector field via the following code:
 # Consider we have a vector field `vf` and semantic segmentation `semantic`, 
 # we can derive the instance segmentation via the following code: 
 
-from torchvf.numerics import *
-from torchvf.utils import *
+from torchvf.numerics import interp_vf, ivp_solver, init_values_semantic
+from torchvf.utils import cluster
 
 # Step 1: Convert our discretely sampled vector field into continuous vector
 # field through bilinear interpolation. 
@@ -62,14 +62,94 @@ instance_segmentation = cluster(
 
 ```
 
+## Supported Features
+
+<details>
+   <summary>Interpolators:</summary>
+
+</br>
+
+| Interpolator             | Implemented          |
+| ------------------------ | -------------------- |
+| Nearest Neighbor         | :white_check_mark:   |
+| Nearest Neighbor Batched | :white_check_square: |
+| Bilinear                 | :white_check_mark:   |
+| Bilinear Batched         | :white_check_mark:   |
+
+</details>
+
+<details>
+   <summary>Numeric Integration Solvers:</summary>
+
+</br>
+
+| Interpolator            | Implemented          |
+| ----------------------- | -------------------- |
+| Euler's Method          | :white_check_mark:   |
+| Midpoint Method         | :white_check_mark:   |
+| Runge Kutta (4th Order) | :white_check_mark:   |
+| Adaptive Dormand Prince | :white_check_square: |
+
+</details>
+
+<details>
+   <summary>Clustering Schemes:</summary>
+
+</br>
+
+| Interpolator            | Implemented          |
+| ----------------------- | -------------------- |
+| DBSCAN (Scikit-learn)   | :white_check_mark:   |
+| DCSCAN (PyTorch)        | :white_check_square: |
+| ...?                    | :white_check_square: | 
+
+</details>
+
+<details>
+   <summary>Vector Field Computation:</summary>
+
+</br>
+
+| Interpolator           | Implemented          |
+| ---------------------- | -------------------- |
+| Truncated SDF + Kernel | :white_check_mark:   |
+| Affinity Derived       | :white_check_mark:   |
+| Omnipose               | :white_check_square: |
+| Centroid Based         | :white_check_square: | 
+
+</details>
+
+<details>
+   <summary>Other Utilities:</summary>
+
+ - Tiler wrapper for models. 
+ - Semantic -> euclidean conversion.
+ - The IVP vector field loss function. 
+ - Tversky and Dice semantic loss functions. 
+ - Training and evalution scripts. 
+ - Various pretrained models on the BPCIS dataset.  
+ - Modeling for the presented H1 and H2 models. 
+ - mAP IoU, F1, IoU metrics. 
+
+</details>
+
+## Dependencies
+
+The ultimate goal of TorchVF is to be solely dependent on PyTorch. Although at
+the moment, the signed distance function computation relies on Seung Lab's
+euclidean distance transform [library](https://github.com/seung-lab/euclidean-distance-transform-3d)
+and the DBSCAN clustering implementation relies on Scikit-learn.  Furthermore,
+NumPy appears in various places (mAP IoU metric, clustering, ...).
+
 ## Reproducability
 
 This installation guide is for people who want to reproduce the results in my
 [article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf)
-on vector field based methods using TorchVF as-is. 
+on vector field based methods. First, clone the repository:
 
-I have a PyPI library for TorchVF, though for now just clone the repository as 
-the API is a work in progress. 
+```
+git clone https://github.com/ryanirl/torchvf.git
+```
 
 ### Installing the Weights
 
@@ -80,12 +160,12 @@ fluorescence, and worm subsets of the BPCIS dataset. And can be found
 
 Once you download the weights:
  - Unzip the file.
- - Replace the `torchvf/weights` file with the `torchvf_weights` file. 
+ - Replace the `torchvf/weights` file with the downloaded and unzipped `torchvf_weights` file. 
  - Rename `torchvf/torchvf_weights` to `torchvf/weights`.
 
 ### Installing the BPCIS Dataset
 
-First, download the BPCIS dataset [here](http://www.cellpose.org/dataset_omnipose).
+Download the BPCIS dataset [here](http://www.cellpose.org/dataset_omnipose).
 Then setup the file system this way:
 
 ```bash
@@ -103,9 +183,10 @@ Then setup the file system this way:
 ```
 
 If you have cloned the library, downloaded the weights, and downloaded the
-BPCIS dataset you *should* be able to do `python3 eval.py --config_dir
-../weights/bact_fluor/h1/eval_config.py`. This will run evaluation on the
-bacterial fluorescence subset using the downloaded weights. 
+BPCIS dataset you *should* be able to do 
+`python3 scripts/eval.py --config_dir ./weights/bact_fluor/h1/eval_config.py`.
+This will run evaluation on the bacterial fluorescence subset using the config
+file from the downloaded weights. 
 
 ## Usage
 
@@ -113,13 +194,17 @@ Work in progress.
 
 ## Citation
 
-Work in progress.
-
+```
+@article{TorchVF,
+   author = {Ryan Peters},
+   title = {TorchVF: Vector Fields for Instance Segmentation},
+   year = 2022
+}
+```
 
 ## License
 
 Distributed under the Apache-2.0 license. See `LICENSE` for more information.
-
 
 
 

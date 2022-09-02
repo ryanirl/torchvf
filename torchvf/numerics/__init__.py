@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .vector_fields import compute_vector_field
+from torchvf.numerics.vector_fields import compute_vector_field
+from torchvf.numerics.affinity import affinity_vf
 
-from .integration import *
-from .interpolation import *
-from .differentiation import *
-from .affinity import affinity_vf
+from torchvf.numerics.interpolation import interp_vf
+from torchvf.numerics.integration import *
+
 
 
 

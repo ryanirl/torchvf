@@ -16,7 +16,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from numerics import *
+from torchvf.numerics import interp_vf, ivp_solver
 
 
 class IVPLoss(nn.Module):

@@ -16,7 +16,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from numerics.differentiation.kernels import *
+from torchvf.numerics.differentiation.kernels import *
 
 
 def gaussian_smoothed_finite_differences(x, kernel_size, device = "cpu"):

@@ -18,8 +18,7 @@ import numpy.random as random
 
 from math import ceil, floor
 
-from numerics import *
-from transforms.functional import *
+from torchvf.transforms.functional import *
 
 
 class Compose:

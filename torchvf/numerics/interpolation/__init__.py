@@ -12,4 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .interp_vf import interp_vf
+from torchvf.numerics.interpolation.interp_vf import interp_vf
+
+
+
+
+

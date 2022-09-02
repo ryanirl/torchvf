@@ -14,7 +14,7 @@
 
 import torchvision
 
-from utils.tiling.base import TilerBase
+from torchvf.utils.tiling.base import TilerBase
 
 
 class ResizeTiler(TilerBase):
