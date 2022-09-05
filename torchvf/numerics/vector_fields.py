@@ -72,12 +72,10 @@ def compute_vector_field(labels, kernel_size, alpha = 10, device = "cpu"):
 
     """
     _, H, W = labels.shape
+    pad     = kernel_size // 2
 
     unique = torch.unique(labels)[1:]
-
     np_labels = labels[0].detach().cpu().numpy().astype(np.uint32)
-
-    pad = kernel_size // 2
 
     vector_field = torch.zeros((2, H, W), device = device)
     for i in unique:

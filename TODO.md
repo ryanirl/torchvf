@@ -1,6 +1,5 @@
 ## TODO List:
  - Scripts to reproduce all experiments.
- - Figure our API details.
  - Setup new config system. 
  - Usage and documentation.
  - Contributions (Not accepting pulls ATM, but feel free to post issues or send me emails.)
@@ -9,8 +8,8 @@
     - Omnipose won't be exact, they have custom EDT algorithm. 
     - Divergence and normalization too. 
  - demo.py for TorchVF API.
- - Make it so no modification to the BPCIS library is needed.
- - Add pip install to README.
+ - Make it so no modification to the BPCIS dataset is needed.
+ - Clean and add additional notebooks.
 
 ## Long Term TODO:
  - PyTorch DBSCAN.

@@ -1,35 +1,49 @@
 # TorchVF
 
-WORK IN PROGRESS.
-
-TorchVF is a unifying Python library for using vector fields for lightweight 
-proposal-free instance segmentation. The TorchVF library provides generalizable
-functions to automate ground truth vector field computation, interpolation of
-discretely sampled vector fields, numeric integration solvers, clustering
-functions, and various other utilities. 
+TorchVF is a unifying Python library for using vector fields for efficient
+proposal-free instance segmentation. Vector field based methods are
+lightweight, fast to train, and can accurately segment objects with arbitrary
+morphology and population density. Read more about vector field based methods
+for instance segmentation in my 
+[article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf).
+TorchVF provides a vector field agnostic API for ground truth vector field
+computation, interpolation of discretely sampled vector fields, numeric
+integration solvers, clustering functions, and various other utilities. 
 
 This repository also provides all configs, code, and tools necessary to
-reproduce the results in my
+reproduce the results presented in my
 [article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf)
 on vector field based methods.
 
-## Quick Start
+## Installation 
 
-First, install the TorchVF library:
+TorchVF can be install via pip:
 
 ```
 pip install torchvf
 ```
 
-For anyone interested in learning about vector field based methods, see my
-[article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf).
-TorchVF can be used to compute the instance segmentation given the semantic
-segmentation and vector field via the following code: 
+For the most up-to-date version, you could install directly from GitHub (this
+is not recommended):
+
+```
+pip install git+https://github.com/ryanirl/torchvf.git
+```
+
+## Quick Start
+
+For deriving the instance segmentation from the semantic segmentation and
+vector field, the TorchVF API is centered around 4 functions:
+ - `interp_vf()`
+ - `init_values_semantic()`
+ - `ivp_solver()`
+ - `cluster()`
+
+To demonstrate how these functions work, consider we are given a semantic
+segmentation `semantic` and vector field `vf`. TorchVF can be used to compute
+the instance segmentation of an image via the following code: 
 
 ```Python
-# Consider we have a vector field `vf` and semantic segmentation `semantic`, 
-# we can derive the instance segmentation via the following code: 
-
 from torchvf.numerics import interp_vf, ivp_solver, init_values_semantic
 from torchvf.utils import cluster
 
@@ -78,7 +92,7 @@ instance_segmentation = cluster(
 | Interpolator             | Implemented          |
 | ------------------------ | -------------------- |
 | Nearest Neighbor         | :white_check_mark:   |
-| Nearest Neighbor Batched | :white_check_square: |
+| Nearest Neighbor Batched | :white_large_square: |
 | Bilinear                 | :white_check_mark:   |
 | Bilinear Batched         | :white_check_mark:   |
 
@@ -94,7 +108,7 @@ instance_segmentation = cluster(
 | Euler's Method          | :white_check_mark:   |
 | Midpoint Method         | :white_check_mark:   |
 | Runge Kutta (4th Order) | :white_check_mark:   |
-| Adaptive Dormand Prince | :white_check_square: |
+| Adaptive Dormand Prince | :white_large_square: |
 
 </details>
 
@@ -106,8 +120,8 @@ instance_segmentation = cluster(
 | Interpolator            | Implemented          |
 | ----------------------- | -------------------- |
 | DBSCAN (Scikit-learn)   | :white_check_mark:   |
-| DCSCAN (PyTorch)        | :white_check_square: |
-| ...?                    | :white_check_square: | 
+| DCSCAN (PyTorch)        | :white_large_square: |
+| ...?                    | :white_large_square: | 
 
 </details>
 
@@ -120,13 +134,15 @@ instance_segmentation = cluster(
 | ---------------------- | -------------------- |
 | Truncated SDF + Kernel | :white_check_mark:   |
 | Affinity Derived       | :white_check_mark:   |
-| Omnipose               | :white_check_square: |
-| Centroid Based         | :white_check_square: | 
+| Omnipose               | :white_large_square: |
+| Centroid Based         | :white_large_square: | 
 
 </details>
 
 <details>
    <summary>Other Utilities:</summary>
+
+</br>
 
  - Tiler wrapper for models. 
  - Semantic -> euclidean conversion.
@@ -149,8 +165,8 @@ NumPy appears in various places (mAP IoU metric, clustering, ...).
 
 ## Reproducability
 
-This installation guide is for people who want to reproduce the results in my
-[article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf)
+This is a reproducability guide for people who want to reproduce the results
+presented in my [article](https://github.com/ryanirl/torchvf/blob/main/article/first_draft.pdf)
 on vector field based methods. First, install the torchvf library and clone the
 repository to get access to the scripts:
 
@@ -162,8 +178,8 @@ git clone https://github.com/ryanirl/torchvf.git
 
 ### Installing the Weights
 
-Weights include H1 and H2 for the bacterial phase contrast, bacterial
-fluorescence, and worm subsets of the BPCIS dataset. And can be found
+I provide weights for the H1 and H2 models trained on each subset of the BPCIS dataset. These weights,
+along with configs and logging information for both training and evaluation, can be downloaded 
 [here](https://drive.google.com/drive/folders/14fvNNZkr4ewuy0-Q2mwjCX-fbMVS7X90?usp=sharing)
 (157.5 MB zipped | 185.5 MB unzipped). 
 
@@ -194,12 +210,9 @@ Then setup the file system this way:
 If you have cloned the library, downloaded the weights, and downloaded the
 BPCIS dataset you *should* be able to do 
 `python3 scripts/eval.py --config_dir ./weights/bact_fluor/h1/eval_config.py`.
-This will run evaluation on the bacterial fluorescence subset using the config
-file from the downloaded weights. 
+This will run evaluation on the bacterial fluorescence subset using the evaluation 
+config file provided with the downloaded weights. 
 
-## Usage
-
-Work in progress.
 
 ## Citation
 
