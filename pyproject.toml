@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "torchvf"
-version = "0.1.1"
+version = "0.1.2"
 description = "Vector fields for instance segmentation in PyTorch."
 authors = ["Ryan Peters <RyanIRL@icloud.com>"]
 license = "Apache-2.0"
