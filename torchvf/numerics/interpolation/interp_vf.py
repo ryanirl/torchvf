@@ -14,6 +14,7 @@
 
 from torchvf.numerics.interpolation.functional import (
     bilinear_interpolation_batched,
+    nearest_interpolation_batched,
     bilinear_interpolation,
     nearest_interpolation
 )
@@ -25,6 +26,11 @@ def _vf_bilinear_batched(vector_field):
         return out
     return _vf
 
+def _vf_nearest_batched(vector_field):
+    def _vf(p):
+        out = nearest_interpolation_batched(vector_field, p)
+        return out
+    return _vf
 
 def _vf_bilinear(vector_field):
     def _vf(p):
@@ -42,6 +48,7 @@ def _vf_nearest(vector_field):
 
 vf_interpolators = {
     "bilinear_batched": _vf_bilinear_batched,
+    "nearest_batched": _vf_nearest_batched,
     "bilinear": _vf_bilinear,
     "nearest": _vf_nearest
 }

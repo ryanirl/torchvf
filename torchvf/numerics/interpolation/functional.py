@@ -192,6 +192,52 @@ def bilinear_interpolation_batched(vf, points):
     return lerp_y
 
 
+def nearest_interpolation_batched(vf, pt):
+    """ 
+    Computes a batched nearest-neighbor interpolation on the vector 
+    field `vf` given `points`. Because it's batched, all points
+    on `vf` need to be considered and therefore the `points` shape 
+    will be (B, D, TYX). Assumes `points` index `vf`, and that 
+    `vf` is defined on a regular rectangular grid of equidistant 
+    points.
+
+    Args:
+        vf (torch.float32): Vector field of shape (B, D, TYX). Must
+            be of type float. 
+        pt (torch.float32): The points of dimension D to be 
+            interpolated. Of shape (B, D, TYX). Must be of type float.
+
+    Returns:
+        torch.float32: The interpolated values of shape (B, D, TYX).
+
+    """
+
+    ## this version gives weird fringes at edges 
+    # shape = vf.shape
+    # B = shape[0]
+    # D = shape[1]
+    # for j,s in enumerate(shape[-D:]):
+    #     pt[:,j].clamp_(0,s-1) # in place clamp 
+    # pt.round_() # in place round 
+    # return vf.gather(-1, pt.long())
+
+    # pt = pt.contiguous()
+    # vf = vf.contiguous()
+    # pt = pt.view(B,D,-1)
+    # vf = vf.view(B,D,-1)
+    # return vf.gather(-1, pt.long()).view(shape)
+
+    ## This version is slightly slower, but no fringing artifacts 
+    # should test in place operator, contiguous is probably not necessary at all 
+    # also possible something else got messed up, so compare to stock torchvf  
+    #hmm, there was a mistake here so not sure if my last model was what I think it was <<<<<<<<<<<<<<<<<<<<
+    shape = vf.shape
+    D = shape[1]
+    pt = torch.stack([torch.clamp(pt[:,j],0,s-1)
+                        for j,s in enumerate(shape[-D:])]
+                        ,axis=1).round_().long().contiguous()
+
+    return vf.gather(-1, pt)
 
 
 

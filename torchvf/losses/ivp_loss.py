@@ -33,7 +33,8 @@ class IVPLoss(nn.Module):
         iteself as it is with the interpolation.
 
     """
-    def __init__(self, dx = 0.5, n_steps = 8, solver = "euler", device = "cpu"):
+    def __init__(self, dx = 0.5, n_steps = 8, solver = "euler", 
+                 device = "cpu", mode = "bilinear_batched"):
         """
         Args:
             dx (float): Numeric integration step size.
@@ -50,25 +51,34 @@ class IVPLoss(nn.Module):
         self.n_steps = n_steps
         self.solver = solver
         self.device = device
+        self.mode = mode
 
-    def _compute_init_values(self, B, H, W):
-        y, x = torch.meshgrid(
-            torch.arange(0, H, device = self.device), 
-            torch.arange(0, W, device = self.device),
-            indexing = "ij"
-        )
+    # def _compute_init_values(self, B, H, W):
+    def _compute_init_values(self,shape):
 
-        init_values = torch.stack([x, y], dim = 0)
-        init_values = init_values.repeat(B, 1, 1, 1)
+        # y, x = torch.meshgrid(
+        #     torch.arange(0, H, device = self.device), 
+        #     torch.arange(0, W, device = self.device),
+        #     indexing = "ij"
+        # )
+
+        # default indexing is ij, but upcoming releases will require this to be specified 
+        # shape is batch followed by spatial dimensions
+        r = [torch.arange(0, l, device=self.device) for l in shape[1:]]
+        x = torch.meshgrid(*(r,),indexing='ij')
+
+        # init_values = torch.stack([x, y], dim = 0)
+        # init_values = init_values.repeat(B, 1, 1, 1)
+        # init_values = torch.stack(x[-1::], dim=0).repeat(shape[0], 1, 1, 1)
+        a = [shape[0]]+[1]*(len(shape)-1)
+        init_values = torch.stack(x[-1::], dim=0).repeat(*(a,))
 
         return init_values
-
-    def _compute_batched_trajectories(self, vf):
-        B, C, H, W = vf.shape
-
-        vf = interp_vf(vf, mode = "bilinear_batched")
-
-        init_values = self._compute_init_values(B, H, W)
+    
+    def _compute_batched_trajectories(self, vf): 
+        s = vf.shape
+        vf = interp_vf(vf, mode=self.mode)
+        init_values = self._compute_init_values(s)
 
         trajectories = ivp_solver(
             vf, 
@@ -90,6 +100,7 @@ class IVPLoss(nn.Module):
             torch.Tensor: The loss.
 
         """
+
         true_trajectories = self._compute_batched_trajectories(vf_true)
         pred_trajectories = self._compute_batched_trajectories(vf_pred)
 
