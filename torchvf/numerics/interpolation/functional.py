@@ -35,8 +35,8 @@ def nearest_interpolation(vf, points):
     _, H, W = vf.shape
 
     clipped = torch.empty_like(points)
-    clipped[0] = torch.clip(points[0], 0, W - 1)
-    clipped[1] = torch.clip(points[1], 0, H - 1)
+    clipped[0] = torch.clamp(points[0], 0, W - 1)
+    clipped[1] = torch.clamp(points[1], 0, H - 1)
 
     x, y = torch.round(clipped).long()
 
@@ -190,6 +190,43 @@ def bilinear_interpolation_batched(vf, points):
     )
 
     return lerp_y
+
+
+def nearest_interpolation_batched(vf, points):
+    """ 
+    Computes a batched nearest-neighbor interpolation on the vector 
+    field `vf` given `points`. Because it's batched, all points
+    on `vf` need to be considered and therefore the `points` shape 
+    will be (B, D, *TYX) where `len(TXW) == D`. Assumes `points` 
+    index `vf`, and that `vf` is defined on a regular rectangular 
+    grid of equidistant points.
+
+    Modified code from Kevin Cutler: 
+        - https://github.com/kevinjohncutler
+
+    Args:
+        vf (torch.float32): Vector field of shape (B, D, *TYX). Must
+            be of type float. For example:
+                - (B, 2, H, W)
+                - (B, 3, H, W, D)
+                - (B, 4, H, W, D, ...)
+        pt (torch.float32): The points of dimension D to be 
+            interpolated. Of shape (B, D, TYX). Must be of type float.
+
+    Returns:
+        torch.float32: The interpolated values of shape (B, D, TYX).
+
+    """
+    B, D, *dims = vf.shape
+
+    points = torch.stack([
+        torch.clamp(points[:, i], 0, d - 1)
+        for i, d in enumerate(dims)
+    ], axis = 1)
+
+    points = points.round_().long().contiguous()
+
+    return vf.gather(-1, points)
 
 
 

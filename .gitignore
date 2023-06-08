@@ -1,4 +1,5 @@
 bpcis
+tests/
 
 # Various Configs
 bpcis_bact_phase_affinity_19.py

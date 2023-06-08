@@ -33,7 +33,13 @@ class IVPLoss(nn.Module):
         iteself as it is with the interpolation.
 
     """
-    def __init__(self, dx = 0.5, n_steps = 8, solver = "euler", device = "cpu"):
+    def __init__(self, 
+        dx = 0.5, 
+        n_steps = 8, 
+        solver = "euler", 
+        mode = "bilinear_batched",
+        device = "cpu"
+    ):
         """
         Args:
             dx (float): Numeric integration step size.
@@ -42,6 +48,9 @@ class IVPLoss(nn.Module):
                 - "euler"
                 - "midpoint"
                 - "runge_kutta"
+            mode (str): The type of interpolation to do. One of:
+                - "bilinear_batched"
+                - "nearest_batched"
 
         """
         super(IVPLoss, self).__init__()
@@ -49,26 +58,28 @@ class IVPLoss(nn.Module):
         self.dx = dx
         self.n_steps = n_steps
         self.solver = solver
+        self.mode = mode
         self.device = device
 
-    def _compute_init_values(self, B, H, W):
-        y, x = torch.meshgrid(
-            torch.arange(0, H, device = self.device), 
-            torch.arange(0, W, device = self.device),
-            indexing = "ij"
-        )
+    def _compute_init_values(self, shape):
+        B, C, *dims = shape
 
-        init_values = torch.stack([x, y], dim = 0)
-        init_values = init_values.repeat(B, 1, 1, 1)
+        coords = [
+            torch.arange(0, l, device = self.device) 
+            for l in dims
+        ]
+        mesh = torch.meshgrid(coords, indexing = "ij")
+
+        init_shape = [B, 1] + ([1] * len(dims))
+        init_values = torch.stack(mesh[::-1], dim = 0)
+        init_values = init_values.repeat(init_shape)
 
         return init_values
 
     def _compute_batched_trajectories(self, vf):
-        B, C, H, W = vf.shape
+        init_values = self._compute_init_values(vf.shape)
 
-        vf = interp_vf(vf, mode = "bilinear_batched")
-
-        init_values = self._compute_init_values(B, H, W)
+        vf = interp_vf(vf, mode = self.mode)
 
         trajectories = ivp_solver(
             vf, 
