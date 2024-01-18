@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "torchvf"
-version = "0.1.3"
+version = "0.1.4"
 description = "Vector fields for instance segmentation in PyTorch."
 authors = ["Ryan Peters <RyanIRL@icloud.com>"]
 license = "Apache-2.0"
@@ -22,7 +22,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-torch = ">=1.6.0,<2.1.0"
+torch = ">=1.6.0"
 scikit-learn = "*"
 matplotlib = "*"
 opencv-python-headless = "*"
